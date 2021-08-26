@@ -1,29 +1,21 @@
 require('dotenv').config();
-const {MongoClient} = require('mongodb');
+const {MongoClient } = require('mongodb');
 
-exports.connect = async function (dbURL) {
-    //const conn = mongoose.createConnection(dbURL);
-    //return conn;
-
-    console.log('connecting start')
-
-    const client = new MongoClient(dbURL);
-
-    await client.connect();
-
-    return client
-
-    /*
-    mongoose.connect(dbURL, function (err, database) { 
-        if (err) {
-            console.log(`Server failed to connect to database :` + err);
-            throw err
-        } 
-     }) 
-     var db = mongoose.connection;
-     
-    return db
-    */
+exports.connect = async function () {
+ 
+        // Connect to the MongoDB cluster
+        //await client.connect();
+   
+        MongoClient.connect(process.env.DB_URL).then((client) => {
+            const connect = client.db(process.env.DB_NAME)
+            connect.listCollections().toArray(function(err, names) {   
+                console.log('err: ', err)
+                if(!err) {
+                    //names.forEach((n)=>console.log(n.name))
+                }
+            });
+            console.log('Successfull connection ');
+        })
 }
 
 exports.find = async function ( collectionName, findKey) {

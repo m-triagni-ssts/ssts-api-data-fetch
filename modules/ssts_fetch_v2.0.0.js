@@ -124,19 +124,23 @@ async function saveDataIgnoreDuplicate ( symbol, jsonRecords,  collectionName, f
 	else {
 		console.log ('jsonRecords.length : ' + jsonRecords.length)
 
+		var i = 0;
 		for (var jsonRecord of jsonRecords) {
+			if (i < process.env.MAX_DATA) {
 
-			if (symbol == null) {
-				symbol = jsonRecord.symbol
-			}
-
-			var duplicateResult = checkDuplicate(symbol, jsonRecord, dbRecords, filterDuplicate1, filterDuplicate2, layer2Name)
-			
-			if (!duplicateResult.isDuplicate) { 
-				 arrNewJSONRecord.push(jsonRecord) 
-			}
+				if (symbol == null) {
+					symbol = jsonRecord.symbol
+				}
 	
-			isDuplicate1 = duplicateResult.isDuplicate1;
+				var duplicateResult = checkDuplicate(symbol, jsonRecord, dbRecords, filterDuplicate1, filterDuplicate2, layer2Name)
+				
+				if (!duplicateResult.isDuplicate) { 
+					 arrNewJSONRecord.push(jsonRecord) 
+				}
+		
+				isDuplicate1 = duplicateResult.isDuplicate1;
+			}
+			i++;
 			  
 		}
 	 

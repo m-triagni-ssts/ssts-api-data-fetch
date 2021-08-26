@@ -1,0 +1,16 @@
+ 
+service: ssts-api-data-fetch-service
+ 
+provider:
+  name: aws
+  runtime: nodejs12.x
+  lambdaHashingVersion: 20201221
+
+# you can overwrite defaults here
+  stage: dev
+  region: us-west-2
+ 
+functions:
+  hello:
+    handler: handler.start
+ 
